@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 const database = {
     users: [
         {
-            id: '123',
+            id: 123,
             name: 'John',
             email: 'john@gmail.com',
             password: 'cookies',
@@ -15,7 +15,7 @@ const database = {
             joined: new Date()
         },
         {
-            id: '124',
+            id: 124,
             name: 'Saly',
             email: 'saly@gmail.com',
             password: 'bananas',
@@ -49,7 +49,33 @@ app.post('/register', (req, res)=> {
     })
    res.json(database.users[database.users.lenght-1])
 })
-
+app.get('/profile/:id', (req, res)=>{
+    const {id} = req.params;
+    let found = false;
+    database.users.forEach(user => {
+        if (user.id === id){
+           found = true; 
+           return res.json(user);
+        }
+        if (!found){
+            return res.status(404).json('Not found');
+        }
+    });
+})
+app.post('/image', (req, res)=>{
+    const {id} = req.body;
+    let found = false;
+    database.users.forEach(user => {
+        if (user.id === id){
+           found = true;
+           user.entries++
+           return res.json(user.entries);
+        }
+        if (!found){
+            return res.status(400).json('Not found');
+        }
+    });
+})
 app.listen(3000, ()=>{
     console.log('app is running on port 3000');
 })
