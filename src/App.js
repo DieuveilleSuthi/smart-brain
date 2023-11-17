@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import Navigation from './component/Navigation/Navigation';
-import Logo from './component/Logo/Logo';
 import ImageLinkForm from './component/ImageLinkForm/ImageLinkForm';
+import Logo from './component/Logo/Logo';
+import Navigation from './component/Navigation/Navigation';
 //import Clarifai from 'clarifai';
 import 'tachyons';
-import Rank from './component/Rank/Rank';
-import Signin from './component/signin/signin';
-import Register from './component/Register/Register';
 import FaceRecognetion from './component/FaceRecognetion.js/FaceRecognetion';
+import Rank from './component/Rank/Rank';
+import Register from './component/Register/Register';
+import Signin from './component/signin/signin';
 
 /*const app = new Clarifai.App({
   apiKey: '94452b931d65435b981ce1e0c39e2244'
@@ -61,9 +61,28 @@ class App extends Component {
       input: '',
       imageUrl: '',
       route:'signin',
-      isSignin: false
+      isSignin: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
     }
   }
+
+  loadUser = (data) => {
+    this.setState({user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
+    }})
+  }
+
+
 
   onInputChange = (event) => {
     this.setState({input: event.target.value})
@@ -124,8 +143,8 @@ class App extends Component {
             <FaceRecognetion imageUrl = {imageUrl}/>
          </div> 
         : (route === 'signin' ? 
-        <Signin  onRouteChange = {this.onRouteChange}/>:
-        <Register  onRouteChange = {this.onRouteChange} />
+        <Signin  loadUser = {this.loadUser} onRouteChange = {this.onRouteChange}/>:
+        <Register loadUser = {this.loadUser} onRouteChange = {this.onRouteChange} />
         )
           }
        
